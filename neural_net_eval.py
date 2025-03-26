@@ -1234,5 +1234,5 @@ if __name__ == "__main__":
         model_dir='Neural_net',
         train_data_path='data_files/df_forecasting_train.csv',
         test_data_path='data_files/df_forecasting_test.csv',
-        output_dir='model_evaluation_results'
+        output_dir='model_evaluation_results/neural_net_eval'
     )
