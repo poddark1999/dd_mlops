@@ -1231,8 +1231,8 @@ def run_evaluation(model_dir, train_data_path, test_data_path, output_dir='evalu
 # Example usage
 if __name__ == "__main__":
     results = run_evaluation(
-        model_dir='Neural_net',
-        train_data_path='data_files/df_forecasting_train.csv',
-        test_data_path='data_files/df_forecasting_test.csv',
+        model_dir='/Users/karampoddar/Desktop/Git/dd_mlops/models/Neural_net',
+        train_data_path='/Users/karampoddar/Desktop/Git/dd_mlops/data_files/df_forecasting_train.csv',
+        test_data_path='/Users/karampoddar/Desktop/Git/dd_mlops/data_files/df_forecasting_test.csv',
         output_dir='model_evaluation_results/neural_net_eval'
     )

@@ -1,9 +1,9 @@
 Total Products: 539
 Total Predictions: 4851
-Mean Absolute Error: 1.281298329939779
+Mean Absolute Error: 1.28129832993977
 Median Absolute Error: 1.509903313490213e-14
-Mean Percent Error: 196773.5906662986
-Median Percent Error: 6.661271535035589e-12
+Mean Percent Error: 196773.5906662988
+Median Percent Error: 8.970512333847926e-12
 Total Actual Sales: 28347.0
 Total Predicted Sales: 29579.69641949447
 Overall Error: 4.348595687354819
