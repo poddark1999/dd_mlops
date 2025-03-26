@@ -855,9 +855,3 @@ if __name__ == "__main__":
         output_dir='model_evaluation_results/base_model_eval'
     )
     
-    # Optional: Compare with neural network model if results are available
-    # compare_models(
-    #     linear_results_path='linear_model_evaluation/forecast_evaluation_details.csv',
-    #     neural_results_path='model_evaluation_results/forecast_evaluation_details.csv',
-    #     output_dir='model_comparison'
-    # )
