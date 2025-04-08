@@ -1,3 +1,4 @@
+#AI CODE
 import numpy as np
 import pandas as pd
 import pickle
@@ -210,18 +211,86 @@ def compare_models(linear_results_path, neural_results_path, output_dir='model_c
 if __name__ == "__main__":
     print("\n===== Starting Model Comparison =====")
     
-    # Define paths to the evaluation files
-    linear_path = 'model_evaluation_results/base_model_eval/forecast_evaluation_details.csv'
-    neural_path = 'model_evaluation_results/neural_net_eval/forecast_evaluation_details.csv'
-    output_dir = 'model_evaluation_results/model_comparison'
+    # Dynamically discover available model evaluation scripts
+    eval_scripts_dir = "evaluation_scripts"
+    model_results_dir = "model_evaluation_results"
     
-    # Create output directory
+    # Get all evaluation scripts except the comparison script
+    eval_scripts = [f for f in os.listdir(eval_scripts_dir) 
+                    if f.endswith('.py') and f != 'compare_evals.py']
+    
+    # Build model paths dictionary dynamically
+    model_paths = {}
+    for script in eval_scripts:
+        # Extract model name without extension
+        model_name = script.replace('.py', '')
+        # Construct expected results path
+        result_path = os.path.join(model_results_dir, model_name, 'forecast_evaluation_details.csv')
+        # Check if results exist
+        if os.path.exists(result_path):
+            model_paths[model_name] = result_path
+    
+    if len(model_paths) < 2:
+        print("\n⚠️ Not enough model evaluation results available for comparison.")
+        print("Please run at least two model evaluations first.")
+        exit()
+    
+    # List available models
+    print("\nAvailable models for comparison:")
+    for i, model in enumerate(model_paths.keys()):
+        print(f"{i+1}. {model.replace('_', ' ')}")
+    
+    # Get user selections
+    try:
+        first_model_idx = int(input("\nSelect first model (number): ")) - 1
+        second_model_idx = int(input("Select second model (number): ")) - 1
+        
+        model_names = list(model_paths.keys())
+        
+        if first_model_idx < 0 or first_model_idx >= len(model_names) or \
+           second_model_idx < 0 or second_model_idx >= len(model_names):
+            print("Invalid selection. Please try again.")
+            exit()
+        
+        first_model = model_names[first_model_idx]
+        second_model = model_names[second_model_idx]
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        exit()
+    
+    # Get paths
+    first_path = model_paths[first_model]
+    second_path = model_paths[second_model]
+    
+    # Output directory
+    output_dir = os.path.join(model_results_dir, 'model_comparison')
     os.makedirs(output_dir, exist_ok=True)
     
+    # Check if files exist and run evaluations if needed
+    for model, path in [(first_model, first_path), (second_model, second_path)]:
+        if not os.path.exists(path) or os.path.getsize(path) == 0:
+            print(f"\n⚠️ {model.replace('_', ' ')} results not found.")
+            run_eval = input(f"Run {model.replace('_', ' ')} evaluation first? (y/n): ").strip().lower()
+            
+            if run_eval == 'y':
+                print(f"\nRunning {model} evaluation...")
+                try:
+                    script_path = os.path.join(eval_scripts_dir, f"{model}.py")
+                    with open(script_path, 'r') as f:
+                        script_content = f.read()
+                        exec(script_content)
+                except Exception as e:
+                    print(f"Error running {model} evaluation: {e}")
+                    print("Comparison cannot continue.")
+                    exit()
+            else:
+                print("Comparison cannot continue without required data.")
+                exit()
+    
     print(f"\nComparing models using:")
-    print(f"Linear model results: {linear_path}")
-    print(f"Neural model results: {neural_path}")
+    print(f"First model ({first_model.replace('_', ' ')}): {first_path}")
+    print(f"Second model ({second_model.replace('_', ' ')}): {second_path}")
     print(f"Output directory: {output_dir}\n")
     
     # Run the comparison
-    comparison = compare_models(linear_path, neural_path, output_dir=output_dir)
+    comparison = compare_models(first_path, second_path, output_dir=output_dir)
