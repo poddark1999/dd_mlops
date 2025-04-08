@@ -1,7 +1,7 @@
 # Dynamic Discounting Model Evaluation
 
 ## Overview
-This application helps evaluate and compare different forecasting models for dynamic discounting. It provides a command-line interface to run model evaluations and compare performance across different models.
+This application helps evaluate and compare different forecasting models for dynamic discounting. It provides a command-line interface for running model evaluations and comparing performance across different models.
 
 ## Features
 - Run evaluations for any forecasting model
@@ -49,8 +49,3 @@ python DynamicDiscounting.py
    - Script: `your_model_name.py`
    - Results: `model_evaluation_results/your_model_name/`
 
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-[Specify your license here]
